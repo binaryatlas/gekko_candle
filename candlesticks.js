@@ -89,48 +89,48 @@ strat.check = function (candle) {
 
       if (candleLength < upperShadow * 1.5 && candleLength < lowerShadow * 1.5){
           message = message + 'High Wave Candle spotted';
-          //trade code here
-
+          //trade code here (sell)
+          his.advice('short');
           //end trade code
       }  else if (candleLength < largestCandle.length * 0.02) { 
         if (lowerShadow > candleLength * 5 && upperShadow < candleLength) {
             message = message + 'Dragonfly Doji spotted';
             //trade code here (buy)
-
+            this.advice('long');
           //end trade code
         } else if (upperShadow > candleLength * 5 && lowerShadow < candleLength) {
             message = message + 'Tombstone Doji spotted';
-            //trade code here
-
+            //trade code here (sell)
+            this.advice('short');
           //end trade code
         } else {
             message = message + 'Doji spotted';
             //trade code here (buy)
-
+            this.advice('long');
           //end trade code
         }
       } else if (candleLength < lowerShadow * 0.5) { // lower shadow 2x or larger than body
           if (lastThreeTrend == 'up') {
               message = message + 'Hangman spotted';
               //trade code here (sell)
-
+              this.advice('short');
           //end trade code
           }
           if (lastThreeTrend == 'down') {
               message = message + 'Hammer spotted';
               //trade code here (buy)
-
+              this.advice('long');
           //end trade code
           }
       } else if (candleLength < upperShadow * 0.5 && lastThreeTrend == 'up') {
           message = message + 'Shooting Star spotted';
           //trade code here (sell)
-
+          this.advice('short');
           //end trade code
       } else { 
           message = message + 'Spinning Top spotted';
-          //trade code here
-
+          //trade code here (sell)
+          this.advice('short');
           //end trade code
       }
   }
@@ -140,11 +140,17 @@ strat.check = function (candle) {
     if (upperShadow < candleLength * 0.01 && lowerShadow < candleLength * 0.01) {
         message = message + 'Marubozu Candle spotted';
         //trade code here
+        /*Depending on where a Marubozu is located and what color it is, you can make predictions:
+
+If a White Marubozu occurs at the end of an uptrend, a continuation is likely.
+If a White Marubozu occurs at the end of a downtrend, a reversal is likely.
+If a Black Marubozu occurs at the end of a downtrend, a continuation is likely.
+If a Black Marubozu occurs at the end of an uptrend, a reversal is likely.*/
 
           //end trade code
     } else {
         message = message + 'Long Day Candle spotted';
-        //trade code here
+        //trade code here ( not musch to do here unless larger pattern established)
 
           //end trade code
     } 
@@ -154,14 +160,14 @@ strat.check = function (candle) {
   // indicating a strong signal
   if (candle.close * 0.9 < this.support) {
       message = message + '\nCandle within 10% range of support';
-      //trade code here
-
+      //trade code here (buy)
+      this.advice('long');
           //end trade code
   }
   if (candle.close * 1.1 > this.resistance) {
       message = message + '\nCandle within 10% range of resistance';
-      //trade code here
-
+      //trade code here (sell)
+      this.advice('short');
           //end trade code
   }
 
