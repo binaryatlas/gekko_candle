@@ -69,7 +69,11 @@ strat.update = function(candle) {
 // Based on the newly calculated
 // information, check if we should
 // update or not.
-strat.check = function(candle) {
+strat.check = function (candle) {
+
+//code to check for bear or bull market
+
+//end bull bear check
 
   message = candle.close + ' ';
 
@@ -83,64 +87,82 @@ strat.check = function(candle) {
         lastThreeTrend = 'down';
       }
 
-      // High Wave - Spinning Top with extra long upper and lower shadows
-
-      // Doji - Open and close almost the same price
-
-      // Dragonfly Doji - Doji with extremely long lower shadow, very strong bullish
-      // signal if at support level
-
-      // Tombstone Doji - Doji with extremely long upper shadow, 
-
-      // Hangman - Previous 3 candles are open candles, current candle is a spinning top
-      // with lower shadow 2x or greater than body
-
-      // Shooting star - Previous 3 candles are open candles, current candle is a spinning top
-      // with upper shadow 2x or greater than body
-
-      // Hammer - Previous 3 candles are close candles, current candle is a spinning top 
-      // with lower shadow 2x or greater than body
-
       if (candleLength < upperShadow * 1.5 && candleLength < lowerShadow * 1.5){
-        message = message + 'High Wave Candle spotted';
+          message = message + 'High Wave Candle spotted';
+          //trade code here
+
+          //end trade code
       }  else if (candleLength < largestCandle.length * 0.02) { 
         if (lowerShadow > candleLength * 5 && upperShadow < candleLength) {
-          message = message + 'Dragonfly Doji spotted';
+            message = message + 'Dragonfly Doji spotted';
+            //trade code here (buy)
+
+          //end trade code
         } else if (upperShadow > candleLength * 5 && lowerShadow < candleLength) {
-          message = message + 'Tombstone Doji spotted';
+            message = message + 'Tombstone Doji spotted';
+            //trade code here
+
+          //end trade code
         } else {
-          message = message + 'Doji spotted';
+            message = message + 'Doji spotted';
+            //trade code here (buy)
+
+          //end trade code
         }
       } else if (candleLength < lowerShadow * 0.5) { // lower shadow 2x or larger than body
           if (lastThreeTrend == 'up') {
-            message = message + 'Hangman spotted';
+              message = message + 'Hangman spotted';
+              //trade code here (sell)
+
+          //end trade code
           }
           if (lastThreeTrend == 'down') {
-            message = message + 'Hammer spotted';
+              message = message + 'Hammer spotted';
+              //trade code here (buy)
+
+          //end trade code
           }
       } else if (candleLength < upperShadow * 0.5 && lastThreeTrend == 'up') {
-        message = message + 'Shooting Star spotted';
+          message = message + 'Shooting Star spotted';
+          //trade code here (sell)
+
+          //end trade code
       } else { 
-        message = message + 'Spinning Top spotted';
+          message = message + 'Spinning Top spotted';
+          //trade code here
+
+          //end trade code
       }
   }
 
   // Long Day Candle - 90% of the largest candle or greater
   if (candleLength >= largestCandle.length * 0.9) {
     if (upperShadow < candleLength * 0.01 && lowerShadow < candleLength * 0.01) {
-      message = message + 'Marubozu Candle spotted';
+        message = message + 'Marubozu Candle spotted';
+        //trade code here
+
+          //end trade code
     } else {
-      message = message + 'Long Day Candle spotted';
+        message = message + 'Long Day Candle spotted';
+        //trade code here
+
+          //end trade code
     } 
   }
   
   // Report if candles are within 10% range of resistance or support,
   // indicating a strong signal
   if (candle.close * 0.9 < this.support) {
-    message = message + '\nCandle within 10% range of support';
+      message = message + '\nCandle within 10% range of support';
+      //trade code here
+
+          //end trade code
   }
   if (candle.close * 1.1 > this.resistance) {
-    message = message + '\nCandle within 10% range of resistance';
+      message = message + '\nCandle within 10% range of resistance';
+      //trade code here
+
+          //end trade code
   }
 
   log.info(message);
